@@ -2,11 +2,38 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}SnowTricks{% endblock %}</title>
+        <!-- Add bootstrap library -->
+        <link rel="stylesheet" href="{{ asset('build/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="https://bootswatch.com/4/lumen/bootstrap.min.css">
+        <!-- Add icon library -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         {% block stylesheets %}{% endblock %}
     </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+    <bodyclass="text-center">
+        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+            {% block header %}
+            <header class="masthead mb-auto">
+                <div class="inner">
+                <h3 class="masthead-brand">SnowTricks</h3>
+                <nav class="nav nav-masthead justify-content-center">
+                    <a class="nav-link active" href="#">Home</a>
+                    <a class="nav-link" href="#">Tricks</a>
+                    <a class="nav-link" href="#">Sign In</a>
+                    <a class="nav-link" href="#">Sign up</a>
+                </nav>
+                </div>
+            </header>
+            {% endblock %}
+            {% block body %}{% endblock %}
+            {% block footer %}
+                <footer class="mastfoot mt-auto">
+                    <div class="inner">
+                        <p>SnowTricks, site for yours pleasures !<a href="#">GitHub</a>, by <a href="#">@FD</a>.</p>
+                    </div>
+                </footer>
+            {% endblock %}
+        </div>
+            {% block javascripts %}{% endblock %}
     </body>
 </html>
