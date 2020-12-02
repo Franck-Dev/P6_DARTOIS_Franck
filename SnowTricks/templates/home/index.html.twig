@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<style>
+    .btn.btn-primary{ opacity: 0.7; right: 0px; position: absolute;}
+    .jumbotron {background-size: cover; height: 90vh;}
+    .row {display: grid; height: 100%;}
+</style>
+
+<div class="container-fluid p-0">
+    <div class="jumbotron text-white jumbotron-image shadow" id="Titre" style="background-image: url(https://images.unsplash.com/photo-1552152974-19b9caf99137?fit=crop&w=1350&q=80);">
+        <div class="row align-items-center">
+            <h2 class="text-center">
+                Des Tricks qui déchirent !!!
+            </h2>
+            <h5 class="text-center">
+                Toutes les infos pour envoyer du lourd dans votre prochaine session
+            </h5>
+        </div>
+        <a href="#ListTricks" class="btn btn-primary m-3 pull-right" id="btnMore" onclick="afficherMasquerBtn(this.id)">More</a>
+        <a href="#" class="btn btn-primary m-3 pull-right d-none" id="btnLess">Less</a>
+    </div>
+</div>
+<div class="conteiner-fluid" id="ListTricks">
+    <h5 class="text-center">
+                La liste des Tricks avec les commentaires
+            </h5>
+</div>
+<script type="text/javascript">
+    function afficherMasquerBtn(div)
+    {
+        let d1=document.getElementById(div);
+        console.log(document);
+    }
+</script>
+{% endblock %}
+{% block javascript %}
+
+{% endblock %}
