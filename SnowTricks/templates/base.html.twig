@@ -17,10 +17,14 @@
                 <div class="inner">
                 <h3 class="masthead-brand">SnowTricks</h3>
                 <nav class="nav nav-masthead justify-content-end">
-                    <a class="nav-link active" href="#">Home</a>
+                    <a class="nav-link active" href="{{path('home')}}">Home</a>
                     <a class="nav-link" href="#">Tricks</a>
-                    <a class="nav-link" href="{{path('app_login')}}">Sign In</a>
-                    <a class="nav-link" href="#">Sign up</a>
+                    {% if not app.user %}
+                        <a class="nav-link" href="{{path('app_login')}}">Sign In</a>
+                        <a class="nav-link" href="{{path('app_register')}}">Sign up</a>
+                    {% else %}
+                        <a class="nav-link" href="{{path('app_logout')}}">Sign Out</a>
+                    {% endif %}
                 </nav>
                 </div>
             </header>
