@@ -26,14 +26,13 @@
                 La liste des Tricks avec les commentaires
             </h5>
 </div>
-<script type="text/javascript">
-    function afficherMasquerBtn(div)
-    {
-        let d1=document.getElementById(div);
-        console.log(document);
-    }
-</script>
 {% endblock %}
-{% block javascript %}
-
+{% block javascripts %}
+    <script type="text/javascript">
+        function afficherMasquerBtn(div)
+        {
+            let d1=document.getElementById(div);
+            console.log(document);
+        }
+    </script>
 {% endblock %}
