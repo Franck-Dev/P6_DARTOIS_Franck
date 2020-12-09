@@ -22,9 +22,7 @@
     </div>
 </div>
 <div class="conteiner-fluid" id="ListTricks">
-    <h5 class="text-center">
-                La liste des Tricks avec les commentaires
-            </h5>
+    {{ render(controller('App\\Controller\\TricksController::index')) }}
 </div>
 {% endblock %}
 {% block javascripts %}
