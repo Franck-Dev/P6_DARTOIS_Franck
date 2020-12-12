@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TricksRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -28,19 +30,19 @@ class Tricks
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $pictures;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $video;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Category::class)
      */
     private $category;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Medias::class, mappedBy="Tricks", orphanRemoval=true)
+     */
+    private $medias;
+
+    public function __construct()
+    {
+        $this->medias = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -71,30 +73,6 @@ class Tricks
         return $this;
     }
 
-    public function getPictures(): ?string
-    {
-        return $this->pictures;
-    }
-
-    public function setPictures(?string $pictures): self
-    {
-        $this->pictures = $pictures;
-
-        return $this;
-    }
-
-    public function getVideo(): ?string
-    {
-        return $this->video;
-    }
-
-    public function setVideo(?string $video): self
-    {
-        $this->video = $video;
-
-        return $this;
-    }
-
     public function getCategory(): ?Category
     {
         return $this->category;
@@ -103,6 +81,36 @@ class Tricks
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Medias[]
+     */
+    public function getMedias(): Collection
+    {
+        return $this->medias;
+    }
+
+    public function addMedia(Medias $media): self
+    {
+        if (!$this->medias->contains($media)) {
+            $this->medias[] = $media;
+            $media->setTricks($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMedia(Medias $media): self
+    {
+        if ($this->medias->removeElement($media)) {
+            // set the owning side to null (unless already changed)
+            if ($media->getTricks() === $this) {
+                $media->setTricks(null);
+            }
+        }
 
         return $this;
     }

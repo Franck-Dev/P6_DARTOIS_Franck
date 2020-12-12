@@ -20,6 +20,9 @@ class TricksController extends AbstractController
      */
     public function index(TricksRepository $tricksRepository): Response
     {
+        //Récupération du Thumbails image
+        dump($tricksRepository->findAll());
+        
         return $this->render('tricks/index.html.twig', [
             'tricks' => $tricksRepository->findAll(),
         ]);
