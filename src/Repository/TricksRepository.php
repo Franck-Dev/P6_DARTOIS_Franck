@@ -19,23 +19,23 @@ class TricksRepository extends ServiceEntityRepository
         parent::__construct($registry, Tricks::class);
     }
 
-    // /**
-    //  * @return Tricks[] Returns an array of Tricks objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return Tricks[] Returns an array of Tricks objects
+     */
+    
+    public function myFindTrickWithMedias($nb,$id)
     {
         return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
+            ->leftjoin('t.medias','p')
+            ->andWhere('p.Tricks = :val')
+            ->setParameter('val', $id)
             ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
+            ->setMaxResults($nb)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
-
+    
     /*
     public function findOneBySomeField($value): ?Tricks
     {

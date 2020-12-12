@@ -19,22 +19,25 @@ class MediasRepository extends ServiceEntityRepository
         parent::__construct($registry, Medias::class);
     }
 
-    // /**
-    //  * @return Medias[] Returns an array of Medias objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return Medias[] Returns an array of Medias objects
+     */
+    
+    public function myFindByTrick($nb,$id,$type)
     {
         return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('m.id', 'ASC')
-            ->setMaxResults(10)
+            ->leftjoin('m.Tricks','p')
+            ->andWhere('p.id = :val')
+            ->andWhere('m.Type = :typ')
+            ->setParameter('val', $id)
+            ->setParameter('typ', $type)
+            ->orderBy('m.Likes', 'ASC')
+            ->setMaxResults($nb)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+    
 
     /*
     public function findOneBySomeField($value): ?Medias

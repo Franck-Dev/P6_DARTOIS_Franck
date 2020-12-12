@@ -4,7 +4,7 @@
 
 {% block body %}
     <div id="trickMainImage" class="position-relative border border-dark">
-        <img class="w-100" src="{{asset('medias/' ~ trick.pictures)}}" alt="{{trick.pictures}}">
+        <img class="w-100" src="{{asset('medias/' ~ thumbail[0].name)}}" alt="">
         <div id="trickTitle" class="text-center">
             <h1>{{ trick.name }}</h1>
         </div>
@@ -19,14 +19,14 @@
     </div>
 
     <div class="row" id="trickMedia">
-    {% for image in trick.pictures %}
-        <div class="trickImage mx-auto col-sm-6 col-md-4 col-lg-4 col-xl-3 border border-dark">
-            <img src="" width="100%" alt="">
+    {% for image in images %}
+        <div class="trickImage mx-auto col-sm-6 col-md-4 col-lg-4 col-xl-2 border border-dark">
+            <img src="{{asset('medias/' ~ image.name)}}" width="100%" alt="">
         </div>
     {% endfor %}
-    {% for video in trick.video %}
-        <div class="trickVideo col-sm-6 col-md-4 col-lg-4 col-xl-3 border border-dark">
-            <iframe id="video{{ video.id }}" width="100%" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    {% for video in videos %}
+        <div class="trickVideo col-sm-6 col-md-4 col-lg-4 col-xl-2 border border-dark">
+            <iframe id="video{{ video.name }}" width="100%" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
     {% endfor %}
     </div>
