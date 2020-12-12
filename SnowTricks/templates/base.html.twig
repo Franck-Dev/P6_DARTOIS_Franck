@@ -4,8 +4,8 @@
         <meta charset="UTF-8">
         <title>{% block title %}SnowTricks{% endblock %}</title>
         <!-- Add bootstrap library -->
-        {# <link rel="stylesheet" href="{{ asset('build/bootstrap.min.css') }}"> #}
-        <link rel="stylesheet" href="https://bootswatch.com/4/lumen/bootstrap.min.css">
+        <link rel="stylesheet" href="{{ asset('styles/bootstrap.min.css') }}">
+        {# <link rel="stylesheet" href="https://bootswatch.com/4/lumen/bootstrap.min.css"> #}
         <!-- Add icon library -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         {% block stylesheets %}{% endblock %}
@@ -15,10 +15,10 @@
             {% block header %}
             <header class="masthead mb-auto">
                 <div class="inner">
-                <h3 class="masthead-brand">SnowTricks</h3>
+                <h3 class="masthead-brand text-left">SnowTricks</h3>
                     <nav class="nav nav-masthead justify-content-end">
                         <a class="nav-link active" href="{{path('home')}}">Home</a>
-                        <a class="nav-link" href="#">Tricks</a>
+                        <a class="nav-link" href="{{ path('tricks_new') }}">Tricks</a>
                         {% if not app.user %}
                             <a class="nav-link" href="{{path('app_login')}}">Sign In</a>
                             <a class="nav-link" href="{{path('app_register')}}">Sign up</a>
@@ -33,7 +33,7 @@
             {% block footer %}
                 <footer class="mastfoot mt-auto">
                     <div class="inner">
-                        <p>SnowTricks, site for yours pleasures !<a href="#">GitHub</a>, by <a href="#">@FD</a>.</p>
+                        <p>SnowTricks, site for yours pleasures !<a href="https://github.com/Franck-Dev/P6_DARTOIS_Franck/">GitHub</a>, by <a href="#">@FD</a>.</p>
                     </div>
                 </footer>
             {% endblock %}

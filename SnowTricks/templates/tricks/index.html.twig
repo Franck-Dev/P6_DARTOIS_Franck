@@ -5,37 +5,29 @@
 {% block body %}
     <h1>La liste des Tricks avec leurs commentaires</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Pictures</th>
-                <th>Video</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="card-deck">
         {% for trick in tricks %}
-            <tr>
-                <td>{{ trick.id }}</td>
-                <td>{{ trick.name }}</td>
-                <td>{{ trick.description }}</td>
-                <td>{{ trick.pictures }}</td>
-                <td>{{ trick.video }}</td>
-                <td>
-                    <a href="{{ path('tricks_show', {'id': trick.id}) }}" class="btn btn-primary">show</a>
-                    <a href="{{ path('tricks_edit', {'id': trick.id}) }}" class="btn btn-warning">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
+            <div class="card col-mb6 mb-4">
+                <img class="card-img-top" src="{{asset('medias/' ~ trick.pictures)}}" alt="Card image cap">
+                <div class="card-body">
+                <h5 class="card-title"><a href="{{ path('tricks_show', {'id': trick.id}) }}" >{{ trick.name }}</a></h5>
+                {# <p class="card-text">{{ trick.description }}</p> #}
+                </div>
+                {% if app.user %}
+                    <div class="card-footer">
+                        <ul class="list-unstyled list-inline d-flex justify-content-between mb-0 pull-right">
+                            <li class="list-inline-item mr-0">
+                                <a href="{{ path('tricks_edit', {'id': trick.id}) }}"><span class="m-1" style="font-size: 1.3em; color: grey;"><i class="fa fa-edit"></i></span></a>
+                            </li>
+                            <li class="list-inline-item mr-0">
+                                {{ include('tricks/_delete_form.html.twig') }}
+                            </li>
+                        </ul>
+                        {# <a href="{{ path('tricks_show', {'id': trick.id}) }}" class="btn btn-primary">show</a> #}  
+                    </div>
+                {% endif %}
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
+    </div>
 
-    <a href="{{ path('tricks_new') }}" class="btn btn-success">Create new</a>
 {% endblock %}

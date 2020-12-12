@@ -8,22 +8,22 @@
 </style>
 
 <div class="container-fluid p-0">
-    <div class="jumbotron text-white jumbotron-image shadow" id="Titre" style="background-image: url(https://images.unsplash.com/photo-1552152974-19b9caf99137?fit=crop&w=1350&q=80);">
+    <div class="jumbotron text-white jumbotron-image shadow" id="Title" style="background-image: url('{{asset('medias/Main_SnowTricks.jpg')}}');">
         <div class="row align-items-center">
             <h2 class="text-center">
                 Des Tricks qui déchirent !!!
             </h2>
             <h5 class="text-center">
-                Toutes les infos pour envoyer du lourd dans votre prochaine session
+                Toutes les infos pour envoyer du lourd lors de vos futurs rides!!!
             </h5>
         </div>
-        <a href="#ListTricks" class="btn btn-primary m-3 pull-right" id="btnMore" onclick="afficherMasquerBtn(this.id)">More</a>
-        <a href="#" class="btn btn-primary m-3 pull-right d-none" id="btnLess">Less</a>
+        <a href="#ListTricks" class="pull-right" id="btnMore" onclick="afficherMasquerBtn(this.id)"><i class="fa fa-arrow-down fa-3x"></i></a>
     </div>
 </div>
 <div class="conteiner-fluid" id="ListTricks">
     {{ render(controller('App\\Controller\\TricksController::index')) }}
 </div>
+<a href="{{path('home')}}"><i id="arrow-up" class="fa fa-arrow-up fa-3x float-right"></i></a></div>
 {% endblock %}
 {% block javascripts %}
     <script type="text/javascript">
