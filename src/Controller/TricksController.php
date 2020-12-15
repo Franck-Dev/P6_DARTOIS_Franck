@@ -82,7 +82,7 @@ class TricksController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="tricks_edit", methods={"GET","POST"})
+     * @Route("/edit/{id}", name="tricks_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Tricks $trick): Response
     {

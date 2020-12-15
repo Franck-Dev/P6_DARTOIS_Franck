@@ -2,13 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Tricks;
 use App\Entity\Comments;
 use App\Form\CommentsType;
 use App\Repository\CommentsRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/comments")
@@ -18,23 +20,38 @@ class CommentsController extends AbstractController
     /**
      * @Route("/", name="comments_index", methods={"GET"})
      */
-    public function index(CommentsRepository $commentsRepository): Response
+    public function index(CommentsRepository $commentsRepository, Tricks $trick=null): Response
     {
-        return $this->render('comments/index.html.twig', [
-            'comments' => $commentsRepository->findAll(),
-        ]);
+        if(!$trick) {
+            return $this->render('comments/index.html.twig', [
+                'comments' => $commentsRepository->findAll(),
+            ]);
+        } else {
+            return $this->render('comments/index.html.twig', [
+                'comments' => $commentsRepository->findBy(['Trick'=> $trick->getId()]),
+            ]);
+        }
+        
     }
 
     /**
      * @Route("/new", name="comments_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, Tricks $trick=null, UserInterface $user=null): Response
     {
         $comment = new Comments();
         $form = $this->createForm(CommentsType::class, $comment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $comment->setTrick($trick);
+            $comment->setUser($user);
+            if (!$comment->getId()) {
+                $comment->setCreatedAt(new \datetime);
+            } else {
+                // $comment->setModifDat(new \datetime);
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($comment);
             $entityManager->flush();
