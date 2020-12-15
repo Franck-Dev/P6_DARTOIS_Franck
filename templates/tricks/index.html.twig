@@ -20,7 +20,7 @@
                                 <a href="{{ path('tricks_edit', {'id': image[0].Tricks.id}) }}"><span class="m-1" style="font-size: 1.3em; color: grey;"><i class="fa fa-edit"></i></span></a>
                             </li>
                             <li class="list-inline-item mr-0">
-                                {{ include('tricks/_delete_form.html.twig') }}
+                                {{ include('tricks/_delete_form.html.twig', {'idTrick' : image[0].Tricks.id}) }}
                             </li>
                         </ul>
                         {# <a href="{{ path('tricks_show', {'id': trick.id}) }}" class="btn btn-primary">show</a> #}  
