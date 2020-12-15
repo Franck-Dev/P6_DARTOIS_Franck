@@ -46,33 +46,13 @@ class TricksController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            // On récupère les images transmises
-            $images = $form->get('medias')->getData();
-            
-            // On boucle sur les images
-            foreach($images as $image){
-                // On génère un nouveau nom de fichier
-                $fichier = md5(uniqid()).'.'.$image->guessExtension();
-                
-                // On copie le fichier dans le dossier uploads
-                $image->move(
-                    $this->getParameter('images_directory'),
-                    $fichier
-                );
-                
-                // On crée l'image dans la base de données
-                $img = new Medias();
-                $img->setName($fichier);
-                $img->setType('Picture');
-                $img->setLikes(1);
-                $trick->addMedia($img);
-            }
+            $this->integrationMedia($form, $trick);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($trick);
             $entityManager->flush();
 
-            return $this->redirectToRoute('tricks_index');
+            return $this->redirectToRoute('tricks_show',['id' => $trick->getId()]);
         }
 
         return $this->render('tricks/new.html.twig', [
@@ -110,9 +90,12 @@ class TricksController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $this->integrationMedia($form, $trick);
+
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('tricks_index');
+            return $this->redirectToRoute('tricks_show',['id' => $trick->getId()]);
         }
 
         return $this->render('tricks/edit.html.twig', [
@@ -122,7 +105,7 @@ class TricksController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="tricks_delete", methods={"DELETE"})
+     * @Route("/delete/{id}", name="tricks_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Tricks $trick): Response
     {
@@ -132,6 +115,57 @@ class TricksController extends AbstractController
             $entityManager->flush();
         }
 
+        return $this->redirectToRoute('tricks_show');
+    }
+
+    /**
+     * @Route("/delete/medias/{id}", name="image_delete", methods={"DELETE"})
+     */
+    public function deleteImage(Medias $image, Request $request){
+        $data = json_decode($request->getContent(), true);
+        dump($request->getContent());
+        // On vérifie si le token est valide
+        if($this->isCsrfTokenValid('delete'.$image->getId(),  $request->request->get('_token'))){
+            // On récupère le nom de l'image
+            $nom = $image->getName();
+            // On supprime le fichier
+            unlink($this->getParameter('images_directory').'/'.$nom);
+
+            // On supprime l'entrée de la base
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($image);
+            $em->flush();
+
+            $this->addFlash('success', 'Image supprimé');
+
+        }else{
+            $this->addFlash('error', 'Le protocole de suppression n\'est pas recpecté');
+        }
         return $this->redirectToRoute('tricks_index');
+    }
+
+    private function integrationMedia($form, $trick) {
+        // On récupère les images transmises
+        $images = $form->get('medias')->getData();
+            
+        // On boucle sur les images
+        foreach($images as $image){
+            // On génère un nouveau nom de fichier
+            $fichier = md5(uniqid()).'.'.$image->guessExtension();
+            
+            // On copie le fichier dans le dossier uploads
+            $image->move(
+                $this->getParameter('images_directory'),
+                $fichier
+            );
+            
+            // On crée l'image dans la base de données
+            $img = new Medias();
+            $img->setName($fichier);
+            $img->setType('Picture');
+            $img->setLikes(1);
+            $trick->addMedia($img);
+        }
+
     }
 }

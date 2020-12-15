@@ -31,7 +31,7 @@ class MediasRepository extends ServiceEntityRepository
             ->andWhere('m.Type = :typ')
             ->setParameter('val', $id)
             ->setParameter('typ', $type)
-            ->orderBy('m.Likes', 'ASC')
+            ->orderBy('m.Likes', 'DESC')
             ->setMaxResults($nb)
             ->getQuery()
             ->getResult()

@@ -3,6 +3,11 @@
 {% block title %}Tricks{% endblock %}
 
 {% block body %}
+    {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
     <div id="trickMainImage" class="position-relative border border-dark">
         <img class="w-100" src="{{asset('medias/' ~ thumbail[0].name)}}" alt="">
         <div id="trickTitle" class="text-center">
@@ -20,8 +25,12 @@
 
     <div class="row" id="trickMedia">
     {% for image in images %}
-        <div class="trickImage mx-auto col-sm-6 col-md-4 col-lg-4 col-xl-2 border border-dark">
-            <img src="{{asset('medias/' ~ image.name)}}" width="100%" alt="">
+        <div class="img-thumbnail mx-auto col-sm-6 col-md-4 col-lg-4 col-xl-2 border border-dark row align-items-end">
+            <img src="{{asset('medias/' ~ image.name)}}" width="100%" height="100%" alt="" class="img-responsive position-relative w-100">
+            <div class="row justify-content-between position-absolute col">
+                <div class="flex-left col-6"><span>{{ include('tricks/_likes_form.html.twig') }}</span></div>
+                <div class="flex-right"><span>{{ include('tricks/_delete_medias_form.html.twig') }}</span></div>
+            </div>
         </div>
     {% endfor %}
     {% for video in videos %}
@@ -52,4 +61,11 @@
 
     <a href="{{ path('tricks_index') }}">back to list</a>
 
+{% endblock %}
+{% block javascripts %}
+// <script type="text/javascript">
+//     document.getElementById("hRefDelete").addEventListener("click", function(event){
+//     event.preventDefault()
+//     });
+// </script>
 {% endblock %}

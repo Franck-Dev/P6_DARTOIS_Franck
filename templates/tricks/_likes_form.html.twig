@@ -1,0 +1,11 @@
+{# <form method="post" action="{{ path('medias_likes', {'id': medias.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+    <input type="hidden" name="_method" value="POST">
+    <input type="hidden" name="_token" value="{{ csrf_token('like' ~ medias.id) }}"> #}
+    {# <button class="btn">Delete</button> #}
+    <div class="input-group input-group-sm mb-3">
+        <div class="input-group-prepend">
+            <a href=""><span class="input-group-text" style="font-size: 1em; color: Blue;" id="inputGroup-sizing-sm"><i class="fa fa-thumbs-up"></i></span></a>
+        </div>
+        <input type="text" class="form-control" placeholder="{{image.likes}}" aria-label="Likes" aria-describedby="basic-addon1">
+    </div>
+{# </form> #}
