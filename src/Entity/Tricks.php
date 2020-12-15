@@ -39,9 +39,15 @@ class Tricks
      */
     private $medias;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Comments::class, mappedBy="Trick", orphanRemoval=true)
+     */
+    private $comments;
+
     public function __construct()
     {
         $this->medias = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -109,6 +115,36 @@ class Tricks
             // set the owning side to null (unless already changed)
             if ($media->getTricks() === $this) {
                 $media->setTricks(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comments[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comments $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setTrick($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comments $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getTrick() === $this) {
+                $comment->setTrick(null);
             }
         }
 
