@@ -48,6 +48,11 @@ class User implements UserInterface
      */
     private $comments;
 
+    /**
+     * @ORM\Column(type="string", length=55)
+     */
+    private $Pseudo;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -169,6 +174,18 @@ class User implements UserInterface
                 $comment->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPseudo(): ?string
+    {
+        return $this->Pseudo;
+    }
+
+    public function setPseudo(string $Pseudo): self
+    {
+        $this->Pseudo = $Pseudo;
 
         return $this;
     }
