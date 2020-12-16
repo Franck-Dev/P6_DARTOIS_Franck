@@ -2,44 +2,48 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>{% block title %}SnowTricks{% endblock %}</title>
-        <!-- Add bootstrap library -->
-        <link rel="stylesheet" href="{{ asset('styles/bootstrap.min.css') }}">
-        {# <link rel="stylesheet" href="https://bootswatch.com/4/lumen/bootstrap.min.css"> #}
-        <!-- Add icon library -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body class="text-center">
-        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-            {% block header %}
-            <header class="masthead mb-auto">
-                <div class="inner">
-                <h3 class="masthead-brand text-left">SnowTricks</h3>
-                    <nav class="nav nav-masthead justify-content-end">
-                        <a class="nav-link active" href="{{path('home')}}">Home</a>
-                        <a class="nav-link" href="{{ path('tricks_new') }}">Tricks</a>
-                        {% if not app.user %}
-                            <a class="nav-link" href="{{path('app_login')}}">Sign In</a>
-                            <a class="nav-link" href="{{path('app_register')}}">Sign up</a>
-                        {% else %}
-                            <a class="nav-link" href="{{path('app_logout')}}">Sign Out</a>
-                        {% endif %}
-                    </nav>
-                </div>
-            </header>
-            {% endblock %}
-            {% block body %}{% endblock %}
-            {% block footer %}
-                <footer class="mastfoot mt-auto">
-                    <div class="inner">
-                        <p>SnowTricks, site for yours pleasures !<a href="https://github.com/Franck-Dev/P6_DARTOIS_Franck/">GitHub</a>, by <a href="#">@FD</a>.</p>
-                    </div>
-                </footer>
-            {% endblock %}
-        </div>
-            {% block javascripts %}
+        {% block stylesheets %}
+            <!-- Add bootstrap library -->
+            <link rel="stylesheet" href="{{ asset('styles/bootstrap.min.css') }}">
+            {# <link rel="stylesheet" href="https://bootswatch.com/4/lumen/bootstrap.min.css"> #}
+            <!-- Add icon library -->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <style>
+            body {
+                margin: 0;
+                min-height: 100vh;
+                display: grid;
+                grid-template-rows: auto 1fr auto;
+            }
+            .site-content {
+                flex: 1;
+            }
+        </style>
+        {% endblock %}
 
-            {% endblock %}
+        <link rel="icon" href="" type="image/png">
+    </head>
+    <body>
+        {# Inclusion de la navbar pour traitement dans un autre fichier #}
+        {% include "header_navBar.html.twig" %}
+
+        <div class="conteiner-fluid border border-black">
+            {# Gestion de l'affichage des messages d'erreur #}
+            <div class="conteiner">
+                {% for message in app.flashes %}
+                    <p>{{message|raw}}</p>
+                {% endfor %}
+            </div>
+            {# Contenu #}
+            {% block body %}{% endblock %}            
+        </div>
+
+        {# Idem pour le footer #}
+        {% include "footer.html.twig" %}
+        {% block javascripts %}
+
+        {% endblock %}
     </body>
 </html>

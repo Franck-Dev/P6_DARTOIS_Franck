@@ -10,16 +10,16 @@
         {% for comment in comments %}
             <div class="card">
                 <div class="card-body">
-                <img src="http://placehold.it/64x64" class="float-left rounded-circle">
-                <div class="message">
-                    <h5 class="card-title">{{comment.user.pseudo}}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Créé le : {{ comment.CreatedAt ? comment.CreatedAt|date('Y-m-d H:i:s') : '' }}</h6>
-                    <p class="card-text">{{comment.content}}</p>
-                </div>
-                <div class="actions">
+                    <img src="http://placehold.it/64x64" class="float-left rounded-circle">
+                    <div class="message">
+                        <h5 class="card-title">{{comment.user.pseudo}}</h5>
+                        <p class="card-text">{{comment.content}}</p>
+                        <h6 class="card-subtitle mb-2 text-muted">Créé le : {{ comment.CreatedAt ? comment.CreatedAt|date('Y-m-d H:i:s') : '' }}</h6>
+                    </div>
+                {# <div class="actions">
                     <a href="{{ path('comments_show', {'id': comment.id}) }}" class="card-link">Edit</a>
                     <a href="#" class="card-link">Delete</a>
-                </div>
+                </div> #}
                 </div>
             </div>
         {% else %}
@@ -28,5 +28,5 @@
             </tr> #}
         {% endfor %}
 
-    <a href="{{ path('comments_new') }}">Create new</a>
+    {# <a href="{{ path('comments_new') }}">Create new</a> #}
 {% endblock %}

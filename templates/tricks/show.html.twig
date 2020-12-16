@@ -10,37 +10,54 @@
         {% endfor %}
     <div id="trickMainImage" class="position-relative border border-dark">
         <img class="w-100" src="{{asset('medias/' ~ thumbail[0].name)}}" alt="">
-        <div id="trickTitle" class="text-center">
-            <h1>{{ trick.name }}</h1>
-        </div>
         {% if app.user %}
-            <div class="operations">
+            <div class="justify-content-end position-absolute col">
                 <div class="pull-right">
-                    <a href="{{ path('tricks_edit', {'id': trick.id}) }}"><i class="fas fa-pencil-alt"></i></a>
-                    {{ include('tricks/_delete_form.html.twig', {'idTrick' : trick.id}) }}
+                    <div class="flex col-6">
+                        <a href="{{ path('tricks_edit', {'id': trick.id}) }}"><i class="fas fa-pencil-alt"></i></a>
+                    </div>
+                    <div class="flex col-6">
+                        {{ include('tricks/_delete_form.html.twig', {'idTrick' : trick.id}) }}
+                    </div>
                 </div>
             </div>
         {% endif %}
+        <div id="trickTitle" class="text-center">
+            <h1>{{ trick.name }}</h1>
+        </div>
     </div>
 
     <div class="row" id="trickMedia">
     {% for image in images %}
         <div class="img-thumbnail mx-auto col-sm-6 col-md-4 col-lg-4 col-xl-2 border border-dark row align-items-end">
             <img src="{{asset('medias/' ~ image.name)}}" width="100%" height="100%" alt="" class="img-responsive position-relative w-100">
-            <div class="row justify-content-between position-absolute col">
-                <div class="flex-left col-6"><span>{{ include('tricks/_likes_form.html.twig') }}</span></div>
-                <div class="flex-right"><span>{{ include('tricks/_delete_medias_form.html.twig') }}</span></div>
-            </div>
+            {% if app.user %}
+                <div class="row justify-content-between position-absolute col">
+                    <div class="flex-left col-6"><span>{{ include('tricks/_likes_form.html.twig') }}</span></div>
+                    <div class="flex-right m-2"><span>{{ include('tricks/_delete_medias_form.html.twig') }}</span></div>
+                </div>
+            {% endif %}
         </div>
     {% endfor %}
     {% for video in videos %}
         <div class="trickVideo col-sm-6 col-md-4 col-lg-4 col-xl-2 border border-dark">
             <iframe id="video{{ video.name }}" width="100%" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <script type="text/javascript">
+
+                var url = "{{ video.name }}";
+                var id = url.split("_")[1]; //sGbxmsDFVnE
+                console.log(id);
+                var embedlink = "http://www.youtube.com/embed/" + "_" + id;
+
+                var ytube1 = document.getElementById("video{{ video.name }}");
+
+                ytube1.src = embedlink;
+            </script>
         </div>
     {% endfor %}
     </div>
 
-    <div class="row text-center d-none" id="seeMedia">
+    <div class="row text-center d-none" id="voirMedias">
         <button class="btn btn-info col-10 mt-3">Voir les médias</button>
     </div>
     
@@ -51,33 +68,33 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row border-bottom">
         <div class="row text-center col-11 mx-auto my-2 bg-light" id="infos">
-            {# <p class="col">Publié le {{ trick.createdAt | date('d/m/Y') }} à {{ trick.createdAt | date('H:i') }} par {{ trick.user.username }}</p> #}
-            {# <p class="col">Mis à jour le {{ trick.updatedAt | date('d/m/Y') }} à {{ trick.updatedAt | date('H:i') }}</p> #}
             <p class="col">Catégorie : {{ trick.category.name }}</p>
+            <p class="col">Créé le {{ trick.createdat | date('d/m/Y') }}</p>
+            <p class="col">Mis à jour le {{ trick.modifdate | date('d/m/Y') }}</p>
         </div>
     </div>
 
     {% if app.user %}
-        <div class="row">
+        <div class="justify-content-center">
             {{ render(controller('App\\Controller\\CommentsController::new',{'trick': trick.id})) }}
         </div>
     {% endif %}
     
-    <div class="">
+    <div class="justify-content-start">
         {{ render(controller('App\\Controller\\CommentsController::index',{'trick': trick.id})) }}
     </div>
     
-     
+     <div class="row text-center d-none" id="moreComments">
+        <button class="btn btn-info col-10 mt-3">Plus</button>
+    </div>
 
     {# <a href="{{ path('tricks_index') }}">back to list</a> #}
 
 {% endblock %}
 {% block javascripts %}
-// <script type="text/javascript">
-//     document.getElementById("hRefDelete").addEventListener("click", function(event){
-//     event.preventDefault()
-//     });
-// </script>
+<script type="text/javascript">
+
+</script>
 {% endblock %}

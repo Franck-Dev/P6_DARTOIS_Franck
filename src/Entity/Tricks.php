@@ -44,6 +44,16 @@ class Tricks
      */
     private $comments;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $CreatedAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $ModifDate;
+
     public function __construct()
     {
         $this->medias = new ArrayCollection();
@@ -147,6 +157,30 @@ class Tricks
                 $comment->setTrick(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->CreatedAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $CreatedAt): self
+    {
+        $this->CreatedAt = $CreatedAt;
+
+        return $this;
+    }
+
+    public function getModifDate(): ?\DateTimeInterface
+    {
+        return $this->ModifDate;
+    }
+
+    public function setModifDate(?\DateTimeInterface $ModifDate): self
+    {
+        $this->ModifDate = $ModifDate;
 
         return $this;
     }

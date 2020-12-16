@@ -3,9 +3,12 @@
 {# {% block title %}New Comments{% endblock %} #}
 
 {% block body %}
-    <h1>Create new Comments</h1>
-
-    {{ include('comments/_form.html.twig') }}
-
-    {# <a href="{{ path('comments_index') }}">back to list</a> #}
+    <div class="row justify-content-center">
+        <h1>Rajouter un commentaire</h1>
+    </div>
+    <div class="row justify-content-center">
+        {{ include('comments/_form.html.twig') }}
+    </div>
+        {# <a href="{{ path('comments_index') }}">back to list</a> #}
+    
 {% endblock %}

@@ -16,6 +16,7 @@ class TricksFixtures extends Fixture implements DependentFixtureInterface
         $Description=array('Le rider commence la rotation arrière puis effectue quatre rotations complètes. Ensuite, pour en faire un triple, vous devez ajouter trois rotations désaxées.','Lorem ipsum','Lorem ipsum','Lorem ipsum','Lorem ipsum','Lorem ipsum','Lorem ipsum','Lorem ipsum');
         $CateTricks=array('Rotations','Flips','Grabs','Rotations','Flips','Grabs','Flips','Rotations');
         $Cate=array('Grabs','Rotations','Flips','Slides');
+
         
         for($i=0;$i<count($Tricks);$i++){
             $Cate= new Category;
@@ -23,7 +24,8 @@ class TricksFixtures extends Fixture implements DependentFixtureInterface
             $Trick= new Tricks();
             $Trick  ->setName($Tricks[$i])
                     ->setCategory($Cate)
-                    ->setDescription($Description[$i]);
+                    ->setDescription($Description[$i])
+                    ->setCreatedAt(new \DateTime());
 
             $manager->persist($Trick);
             $manager->flush();

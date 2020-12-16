@@ -10,14 +10,14 @@
 <div class="container-fluid p-0">
     <div class="jumbotron text-white jumbotron-image shadow" id="Title" style="background-image: url('{{asset('medias/Main_SnowTricks.jpg')}}');">
         <div class="row align-items-center">
-            <h2 class="text-center">
+            <h2 class="text-center font-weight-bold text-primary">
                 Des Tricks qui déchirent !!!
             </h2>
-            <h5 class="text-center">
+            <h4 class="text-center text-primary">
                 Toutes les infos pour envoyer du lourd lors de vos futurs rides!!!
-            </h5>
+            </h4>
         </div>
-        <a href="#ListTricks" class="pull-right" id="btnMore" onclick="afficherMasquerBtn(this.id)"><i class="fa fa-arrow-down fa-3x"></i></a>
+        <a href="#ListTricks" class="pull-right" id="btnMore" onclick=""><i class="fa fa-arrow-down fa-3x"></i></a>
     </div>
 </div>
 <div class="conteiner-fluid" id="ListTricks">
@@ -27,10 +27,6 @@
 {% endblock %}
 {% block javascripts %}
     <script type="text/javascript">
-        function afficherMasquerBtn(div)
-        {
-            let d1=document.getElementById(div);
-            console.log(document);
-        }
+
     </script>
 {% endblock %}
