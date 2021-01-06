@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Tricks{% endblock %}
+
+{% block body %}
+    <div class="row justify-content-center">
+    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-5 bg-light mt-5 p-5 border border-dark">
+        <h1 class="text-center">Edit Trick</h1>
+        <div class="text-center p-1">
+            {{ include('tricks/_form.html.twig', {'button_label': 'Update'}) }}
+            {# {{ include('tricks/_delete_form.html.twig', {'idTrick' : trick.id}) }} #}
+        </div>
+    </div>
+</div>
+{% endblock %}

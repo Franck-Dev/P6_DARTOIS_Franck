@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}SnowTricks{% endblock %}</title>
+        <!-- Add bootstrap library -->
+        {# <link rel="stylesheet" href="{{ asset('build/bootstrap.min.css') }}"> #}
+        {# <link rel="stylesheet" href="https://bootswatch.com/4/lumen/bootstrap.min.css"> #}
+        <!-- Add icon library -->
+        {# <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> #}
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body class="text-center">
+        {% block header %} {% endblock %}
+        {% block body %}{% endblock %}
+        {% block footer %}{% endblock %}
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

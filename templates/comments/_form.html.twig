@@ -1,0 +1,15 @@
+{{ form_start(form, {'action': path('comments_new', {'trick': comment.trick.id})}) }}
+    <div class="row align-items-center">
+        <div class="col-10">
+            {# {{ form_widget(form) }} #}
+            {{ form_row(form.Content)}}
+            {# On cache la donnée du trick #}
+            <div class="d-none">
+                {{ form_row(form.Trick)}}
+            </div>
+        </div>
+        <div class="col-2 align-self-center">
+            <button class="btn">{{ button_label|default('Save') }}</button>
+        </div>
+    </div>
+{{ form_end(form) }}

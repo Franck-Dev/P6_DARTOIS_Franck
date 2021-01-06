@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<style>
+    .btn.btn-primary{ opacity: 0.7; right: 0px; position: absolute;}
+    .jumbotron {background-size: cover; height: 90vh;}
+    .row {display: grid; height: 100%;}
+</style>
+
+<div class="container-fluid p-0">
+    <div class="jumbotron text-white jumbotron-image shadow" id="Title" style="background-image: url('{{asset('medias/Main_SnowTricks.jpg')}}');">
+        <div class="row align-items-center">
+            <h2 class="text-center font-weight-bold text-primary">
+                Des Tricks qui déchirent !!!
+            </h2>
+            <h4 class="text-center text-primary">
+                Toutes les infos pour envoyer du lourd lors de vos futurs rides!!!
+            </h4>
+        </div>
+        <a href="#ListTricks" class="pull-right" id="btnMore" onclick=""><i class="fa fa-arrow-down fa-3x"></i></a>
+    </div>
+</div>
+<div class="conteiner-fluid" id="ListTricks">
+    {{ render(controller('App\\Controller\\TricksController::index')) }}
+</div>
+<a href="#"><i id="arrow-up" class="fa fa-arrow-up fa-3x float-right"></i></a></div>
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript">
+
+    </script>
+{% endblock %}

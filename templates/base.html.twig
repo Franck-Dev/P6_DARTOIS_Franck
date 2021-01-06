@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>{% block title %}SnowTricks{% endblock %}</title>
+        {% block stylesheets %}
+            <!-- Add bootstrap library -->
+            <link rel="stylesheet" href="{{ asset('styles/bootstrap.min.css') }}">
+            {# <link rel="stylesheet" href="https://bootswatch.com/4/lumen/bootstrap.min.css"> #}
+            <!-- Add icon library -->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <style>
+            body {
+                margin: 0;
+                min-height: 100vh;
+                display: grid;
+                grid-template-rows: auto 1fr auto;
+            }
+            .site-content {
+                flex: 1;
+            }
+        </style>
+        {% endblock %}
+
+        <link rel="icon" href="" type="image/png">
+    </head>
+    <body>
+        {# Inclusion de la navbar pour traitement dans un autre fichier #}
+        {% include "header_navBar.html.twig" %}
+
+        <div class="conteiner-fluid border border-black">
+            {# Gestion de l'affichage des messages d'erreur #}
+            <div class="conteiner">
+                {% for message in app.flashes %}
+                    <p>{{message|raw}}</p>
+                {% endfor %}
+            </div>
+            {# Contenu #}
+            {% block body %}{% endblock %}            
+        </div>
+
+        {# Idem pour le footer #}
+        {% include "footer.html.twig" %}
+        {% block javascripts %}
+
+        {% endblock %}
+    </body>
+</html>
