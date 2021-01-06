@@ -3,19 +3,35 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    {% for flashError in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
-    {% endfor %}
+<div class="row justify-content-center">
+    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-5 bg-light mt-5 p-5 border border-dark">
+        {% for flashError in app.flashes('verify_email_error') %}
+            <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+        {% endfor %}
 
-    <h1>Register</h1>
-
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
-
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+        <h1>Register</h1>
+        
+        {{ form_start(registrationForm) }}
+            <div class="form-group">
+                {{ form_label(registrationForm.pseudo)}}
+                {{ form_widget(registrationForm.pseudo, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(registrationForm.email)}}
+                {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(registrationForm.plainPassword, null,{
+                    'label': 'Password'
+                }) }}
+                {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="form-inline">
+                {{ form_row(registrationForm.agreeTerms) }}
+            </div>
+            <button type="submit" class="btn btn-primary">Register</button>
+        {{ form_end(registrationForm) }}
+        </div>
+    </div>
+</div>
 {% endblock %}
