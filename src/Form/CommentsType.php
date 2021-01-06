@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Comments;
+use App\Entity\Tricks;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -16,8 +18,11 @@ class CommentsType extends AbstractType
             ->add('Content', TextareaType::class, [
                 'label' => 'Veuillez saisir votre commentaire içi :',
                 'help' => 'Merci de rester ZEN!!!'])
-            // ->add('CreatedAt')
-            // ->add('Trick')
+            //->add('CreatedAt')
+            ->add('Trick', EntityType::class, [
+               'class' => Tricks::class,
+               'choice_label' => 'Name',
+            ])
             // ->add('User')
         ;
     }

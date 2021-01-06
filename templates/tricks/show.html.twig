@@ -82,19 +82,52 @@
         </div>
     {% endif %}
     
-    <div class="justify-content-start">
+    <div class="justify-content-center w-75 m-auto" id="Commentaires">
         {{ render(controller('App\\Controller\\CommentsController::index',{'trick': trick.id})) }}
     </div>
     
-     <div class="row text-center d-none" id="moreComments">
-        <button class="btn btn-info col-10 mt-3">Plus</button>
+     <div class="justify-content-center w-75 m-auto" id="moreComments"></div>
+     <div class="text-center m-auto">
+        <button class="btn btn-info mt-3" id="btnMoreComments" onclick=loadComments('{{trick.id}}','{{ path('comments_load', {'id': trick.id}) }}')>Plus de commentaires</button>
+        <button class="btn btn-info mt-3 d-none" id="btnLessComments" onclick=hideComments()>Moins de commentaires</button>
     </div>
 
     {# <a href="{{ path('tricks_index') }}">back to list</a> #}
 
 {% endblock %}
 {% block javascripts %}
+<script src="{{ asset('js/jquery.min.js') }}"></script>
 <script type="text/javascript">
+function loadComments(idTrick,Url) {
+    $(document).ready(function () {
+        console.log(document.getElementById('btnMoreComments').classList);
+        console.log(document.getElementById('btnMoreComments').classList.contains('d-none'));
+        if (document.getElementById('btnMoreComments').classList.contains('d-none')==true) {
+            alert('il passe par içi');
+            document.getElementById('moreComments').classList.toggle('d-none');
+            document.getElementById('btnMoreComments').classList.toggle('d-none');
+            document.getElementById('btnLessComments').classList.toggle('d-none');
+        } else {
+            $.ajax({
+                method: "POST",
+                data: {id: idTrick},
+                url: Url,
+                success: function(dat){
+                    var balise=document.getElementById('moreComments');
+                    balise.innerHTML=dat;
+                    balise.getElementsByTagName('h1')[0].innerText="Suite des commentaires";
+                    document.getElementById('btnMoreComments').classList.toggle('d-none');
+                    document.getElementById('btnLessComments').classList.toggle('d-none');
+                }
+            });
+        }
+    });
+}
 
+function hideComments() {
+    document.getElementById('moreComments').classList.toggle('d-none');
+    document.getElementById('btnMoreComments').classList.toggle('d-none');
+    document.getElementById('btnLessComments').classList.toggle('d-none');
+}
 </script>
 {% endblock %}

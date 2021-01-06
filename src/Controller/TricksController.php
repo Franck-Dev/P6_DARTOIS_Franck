@@ -44,9 +44,9 @@ class TricksController extends AbstractController
         $trick = new Tricks();
         $form = $this->createForm(TricksType::class, $trick);
         $form2= $this->createForm(MediasType::class, $medias);
-        dump($request->request->get('medias')['medias']);
+
         $form->handleRequest($request);
-        dump($form);
+
         if ($form->isSubmitted() && $form->isValid()) {
 
             $this->integrationMedia($form, $request, $trick);
@@ -69,7 +69,7 @@ class TricksController extends AbstractController
     /**
      * @Route("/{id}", name="tricks_show", methods={"GET"})
      */
-    public function show(Tricks $trick,MediasRepository $mediasRepository): Response
+    public function show(Tricks $trick, MediasRepository $mediasRepository): Response
     {
         //On récupère la thumbail image du trick
         $thumbail=$mediasRepository->myFindByTrick(1,$trick->getId(),'Picture');
