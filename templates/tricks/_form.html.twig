@@ -1,8 +1,24 @@
 {{ form_start(form) }}
+  {# Première partie du form avec les données concernants le trick #}
+  <div class="form-group">
+    {{ form_label(form.name)}}
+    {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+  </div>
+  <div class="form-group">
+    {{ form_label(form.description)}}
+    {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+  </div>
+  <div class="form-group">
+    {{ form_label(form.category)}}
+    {{ form_widget(form.category, {'attr': {'class': 'form-control'}}) }}
+  </div>
     {{ form_widget(form) }}
-    {{ form_widget(form2) }}
+  {# Deuxième partie avec les vidéos à insérer #}
+  <div class="form-group">
+    {{ form_widget(form2, {'attr': {'class': 'row justify-content-center'}}) }}
     <a href="#" id="add_video" class="btn btn-default">Ajouter une video</a>
-    <button class="btn">{{ button_label|default('Save') }}</button>
+  </div>
+    <button class="btn btn-success">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script type="text/javascript">
@@ -21,17 +37,17 @@
       return false;
     });
 
-    // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
+    // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle video par exemple).
     if (index == 0) {
       addVideo($container);
     } else {
-      // S'il existe déjà des catégories, on ajoute un lien de suppression pour chacune d'entre elles
+      // S'il existe déjà des vidéos, on ajoute un lien de suppression pour chacune d'entre elles
       $container.children('div').each(function() {
         addDeleteLink($(this));
       });
     }
 
-    // La fonction qui ajoute un formulaire CategoryType
+    // La fonction qui ajoute un formulaire MediasType
     function addVideo($container) {
       // Dans le contenu de l'attribut « data-prototype », on remplace :
       // - le texte "__name__label__" qu'il contient par le label du champ
@@ -42,7 +58,7 @@
       ;
 
       // On crée un objet jquery qui contient ce template
-      var $prototype = $(template);
+      var $prototype = $(template).addClass("row align-items-center");
 
       // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
       addDeleteLink($prototype);
@@ -57,7 +73,7 @@
     // La fonction qui ajoute un lien de suppression d'une catégorie
     function addDeleteLink($prototype) {
       // Création du lien
-      var $deleteLink = $('<a href="#" class="btn btn-danger">Supprimer</a>');
+      var $deleteLink = $('<a href="#" class="btn btn-danger p-1"><i class="fa fa-trash"></i></a>');
 
       // Ajout du lien
       $prototype.append($deleteLink);
