@@ -20,6 +20,21 @@
             .site-content {
                 flex: 1;
             }
+            #navBarBottom {
+                    display: none;
+            }
+            @media screen and (max-width: 480px){
+                #navBarSite {
+                    display: none;
+                }
+                #navBarBottom {
+                    display: block;
+                    overflow: hidden;
+                    position: fixed;
+                    bottom: 0;
+                    width: 100%;
+                }
+            }
         </style>
         {% endblock %}
 
@@ -32,8 +47,10 @@
         <div class="conteiner-fluid border border-black">
             {# Gestion de l'affichage des messages d'erreur #}
             <div class="conteiner">
-                {% for message in app.flashes %}
-                    <p>{{message|raw}}</p>
+                {% for messages in app.flashes %}
+                    {% for message in messages %}
+                       <p>{{message|raw}}</p> 
+                    {% endfor %} 
                 {% endfor %}
             </div>
             {# Contenu #}
@@ -42,6 +59,8 @@
 
         {# Idem pour le footer #}
         {% include "footer.html.twig" %}
+        {# Inclusion de la navbar en pied de page pour les petits médias #}
+        {% include "bottom_navBar.html.twig" %}
         {% block javascripts %}
 
         {% endblock %}
