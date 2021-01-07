@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Medias;
 use App\Entity\Tricks;
+use App\Form\MediasType;
 use App\Form\TricksType;
 use App\Repository\MediasRepository;
 use App\Repository\TricksRepository;
@@ -38,15 +39,18 @@ class TricksController extends AbstractController
     /**
      * @Route("/new", name="tricks_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, Medias $medias=null): Response
     {
         $trick = new Tricks();
         $form = $this->createForm(TricksType::class, $trick);
+        $form2= $this->createForm(MediasType::class, $medias);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $this->integrationMedia($form, $trick);
+            $this->integrationMedia($form, $request, $trick);
+            $trick->setCreatedAt(new \DateTime());
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($trick);
@@ -58,13 +62,14 @@ class TricksController extends AbstractController
         return $this->render('tricks/new.html.twig', [
             'trick' => $trick,
             'form' => $form->createView(),
+            'form2' => $form2->createView(),
         ]);
     }
 
     /**
      * @Route("/{id}", name="tricks_show", methods={"GET"})
      */
-    public function show(Tricks $trick,MediasRepository $mediasRepository): Response
+    public function show(Tricks $trick, MediasRepository $mediasRepository): Response
     {
         //On récupère la thumbail image du trick
         $thumbail=$mediasRepository->myFindByTrick(1,$trick->getId(),'Picture');
@@ -91,7 +96,7 @@ class TricksController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $this->integrationMedia($form, $trick);
+            $this->integrationMedia($form, $request, $trick);
 
             $this->getDoctrine()->getManager()->flush();
 
@@ -115,7 +120,7 @@ class TricksController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('tricks_show');
+        return $this->redirectToRoute('home');
     }
 
     /**
@@ -144,10 +149,13 @@ class TricksController extends AbstractController
         return $this->redirectToRoute('tricks_index');
     }
 
-    private function integrationMedia($form, $trick) {
+    private function integrationMedia($form, $request, $trick) {
+
         // On récupère les images transmises
         $images = $form->get('medias')->getData();
-            
+        $videos=$request->request->get('medias')['medias'];
+        dump($images);
+        dump($videos); 
         // On boucle sur les images
         foreach($images as $image){
             // On génère un nouveau nom de fichier
@@ -166,6 +174,13 @@ class TricksController extends AbstractController
             $img->setLikes(1);
             $trick->addMedia($img);
         }
-
+        //On boucle sur les videos
+        foreach ($videos as $video) {
+            $vid = new Medias();
+            $vid->setName($video['medias']);
+            $vid->setType('Video');
+            $vid->setLikes(1);
+            $trick->addMedia($vid);
+        }
     }
 }

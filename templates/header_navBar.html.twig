@@ -1,0 +1,26 @@
+{# <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column"> #}
+    {% block header %}
+    <header class="site-header bg-secondary" id="navBarSite">
+        <div class="inner border-bottom-dark">
+        <h3 class="masthead-brand text-left">SnowTricks</h3>
+            <nav class="nav nav-masthead justify-content-end">
+                <a class="nav-link active" href="{{path('home')}}">Home</a>
+                {% if not app.user %}
+                    <a class="nav-link disabled" id="Disabled" href="" target="_blank" title="Vous n'avez pas accès à la création. Veuillez vous inscrire">Tricks</a>
+                    <a class="nav-link" href="{{path('app_login')}}">Sign In</a>
+                    <a class="nav-link" href="{{path('app_register')}}">Sign up</a>
+                {% else %}
+                    <a class="nav-link" href="{{ path('tricks_new') }}">Tricks</a>
+                    <a class="nav-link" href="{{path('app_logout')}}">Sign Out</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+    {% endblock %}
+    {% block javascripts %}
+    <script>
+    document.getElementById("Disabled").addEventListener("click", function(event){
+  event.preventDefault()
+});
+    </script>
+    {% endblock %}

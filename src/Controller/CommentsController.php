@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @Route("/comments")
@@ -28,10 +29,9 @@ class CommentsController extends AbstractController
             ]);
         } else {
             return $this->render('comments/index.html.twig', [
-                'comments' => $commentsRepository->findBy(['Trick'=> $trick->getId()]),
+                'comments' => $commentsRepository->findBy(['Trick'=> $trick->getId()],['CreatedAt' => 'DESC'],5),
             ]);
         }
-        
     }
 
     /**
@@ -39,13 +39,14 @@ class CommentsController extends AbstractController
      */
     public function new(Request $request, Tricks $trick=null, UserInterface $user=null): Response
     {
+        
         $comment = new Comments();
+        $comment->setTrick($request->get('trick'));
         $form = $this->createForm(CommentsType::class, $comment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $comment->setTrick($trick);
+            
             $comment->setUser($user);
             if (!$comment->getId()) {
                 $comment->setCreatedAt(new \datetime);
@@ -56,7 +57,7 @@ class CommentsController extends AbstractController
             $entityManager->persist($comment);
             $entityManager->flush();
 
-            return $this->redirectToRoute('comments_index');
+            return $this->redirectToRoute('tricks_show',['id' => $comment->getTrick()->getId()]);
         }
 
         return $this->render('comments/new.html.twig', [
@@ -107,5 +108,27 @@ class CommentsController extends AbstractController
         }
 
         return $this->redirectToRoute('comments_index');
+    }
+    
+    /**
+     * loadComments Requête AJAX pour renvoyer la totalité du reste des commentaires
+     * 
+     * @Route("/loadComments/{id}", name="comments_load", condition="request.isXmlHttpRequest()")
+     * 
+     * @param  mixed $trick
+     * @return void
+     */
+    public function loadComments(Tricks $trick, commentsRepository $commentsRepository, Request $request) {
+
+        if($request->isXmlHttpRequest()) {
+            $idTrick = $request->request->get('id');
+
+            return $this->render('comments/index.html.twig', [
+                'comments' => $commentsRepository->findBy(['Trick'=> $idTrick],['CreatedAt' => 'DESC'],null,5),
+            ]);
+        } else {
+            return new JsonResponse(['Message'=> 'Pas requete AJAX']);
+        }
+        
     }
 }

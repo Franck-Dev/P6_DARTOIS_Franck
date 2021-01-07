@@ -1,0 +1,20 @@
+{# <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column"> #}
+    {% block header %}
+    <header class="site-header bg-secondary pull-bottom" id="navBarBottom">
+        <div class="inner border-bottom-dark">
+            <nav class="nav nav-masthead justify-content-center">
+                <a class="nav-link active" href="{{path('home')}}"><i class="fa fa-home"></i></a>
+                {% if not app.user %}
+                    <a class="nav-link disabled" id="Disabled" href="" target="_blank" title="Vous n'avez pas accès à la création. Veuillez vous inscrire"><i class="fa fa-film"></i></a>
+                    <a class="nav-link" href="{{path('app_login')}}"><i class="fa fa-sign-in"></i></a>
+                    <a class="nav-link" href="{{path('app_register')}}"><i class="fa fa-user-plus"></i></a>
+                {% else %}
+                    <a class="nav-link" href="{{ path('tricks_new') }}" target="_blank" title="Création d'un trick"><i class="fa fa-film"></i></a>
+                    <a class="nav-link" href="{{path('app_logout')}}"><i class="fa fa-sign-out"></i></a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+    {% endblock %}
+    {% block javascripts %}
+    {% endblock %}
