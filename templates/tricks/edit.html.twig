@@ -3,13 +3,40 @@
 {% block title %}Edit Tricks{% endblock %}
 
 {% block body %}
-    <div class="row justify-content-center">
-    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-5 bg-light mt-5 p-5 border border-dark">
-        <h1 class="text-center">Edit Trick</h1>
-        <div class="text-center p-1">
+<h1 class="text-center">Edit Trick</h1>
+{# Header show trick #}
+<div id="trickMainImage" class="position-relative border border-dark rounded">
+    {{ include('tricks/_form_header_trick.html.twig') }}
+</div> 
+{# <div class="form-group text-center">
+    {{ form_label(form.name)}}
+    {{ form_widget(form.name, {'attr': {'class': 'form-control text-center'}}) }}
+</div> #}
+<div class="row justify-content-center">
+    {# Listing medias trick #}
+    <div class="row m-1" id="trickMedia">
+        {{ include('tricks/_form_medias.html.twig') }}
+    </div>
+    {# <div class="col-xs-12 col-sm-8 col-md-6 col-lg-5 bg-light mt-5 p-5 border border-dark"> #}
+        
+        {# <div class="text-center p-1"> #}
             {{ include('tricks/_form.html.twig', {'button_label': 'Update'}) }}
-            {# {{ include('tricks/_delete_form.html.twig', {'idTrick' : trick.id}) }} #}
-        </div>
+            {# {{ render(controller('App\\Controller\\TricksController::show', {'trick': trick, 'modif': true})) }} #}
+            
+        {# </div> #}
+    {# </div> #}
+</div>
+{# <div class="row justify-content-center align-items-center">
+    <div class="form-group text-center">
+        {{ form_label(form.description)}}
+        {{ form_widget(form.description, {'attr': {'class': 'form-control row justify-content-justify col-10'}}) }}
     </div>
 </div>
+<div class="row">
+    <div class="form-group pull-left col-2">
+        {{ form_label(form.category)}}
+        {{ form_widget(form.category, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <button class="btn btn-success">{{ button_label|default('Modifier') }}</button>
+</div> #}
 {% endblock %}

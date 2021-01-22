@@ -21,10 +21,13 @@
                 flex: 1;
             }
             #navBarBottom {
-                    display: none;
+                display: none;
+            }
+            #voirMedias {
+                display: none;
             }
             @media screen and (max-width: 480px){
-                #navBarSite {
+                #navBarSite,#trickMedia {
                     display: none;
                 }
                 #navBarBottom {
@@ -33,6 +36,9 @@
                     position: fixed;
                     bottom: 0;
                     width: 100%;
+                }
+                #voirMedias {
+                    display: block;
                 }
             }
         </style>
