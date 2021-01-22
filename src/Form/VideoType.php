@@ -15,6 +15,7 @@ class VideoType extends AbstractType
         $builder
             ->add('medias', UrlType::class,[
                 'label' => 'lien :',
+                'required' => false,
             ])
         ;
     }

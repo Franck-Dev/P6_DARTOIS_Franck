@@ -13,8 +13,8 @@ class MediasFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager)
     {
         $Tricks=array('Backside Triple Cork 1440','Double Mc Twist 1260','Method Air','Double Backside Rodeo 1080','Misty Flip','Mute','Front Flip','720 Backside');
-        $Medias=array('Main_SnowTricks.jpg','MainPicture.jpg','Picture3.jpg','https://youtu.be/KSdx9gNmqlc','https://youtu.be/VVljQ9JccsY','https://youtu.be/q-RAJnV1dfg');
-        $Type=array('Picture','Picture','Picture','Video','Video','Video');
+        $Medias=array('Main_SnowTricks.jpg','MainPicture.jpg','Picture1.jpg','Picture2.jpg','Picture3.jpg','https://youtu.be/KSdx9gNmqlc','https://youtu.be/VVljQ9JccsY','https://youtu.be/q-RAJnV1dfg');
+        $Type=array('Picture','Picture','Picture','Picture','Picture','Video','Video','Video');
 
 
         for($i=0;$i<count($Tricks);$i++){

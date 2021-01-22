@@ -9,9 +9,10 @@ use App\Repository\CommentsRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/comments")
@@ -36,6 +37,7 @@ class CommentsController extends AbstractController
 
     /**
      * @Route("/new", name="comments_new", methods={"GET","POST"})
+     * @IsGranted("ROLE_USER")
      */
     public function new(Request $request, Tricks $trick=null, UserInterface $user=null): Response
     {
@@ -98,6 +100,7 @@ class CommentsController extends AbstractController
 
     /**
      * @Route("/{id}", name="comments_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_USER")
      */
     public function delete(Request $request, Comments $comment): Response
     {

@@ -15,7 +15,7 @@
     {{ form_widget(form) }}
   {# Deuxième partie avec les vidéos à insérer #}
   <div class="form-group">
-    {{ form_widget(form2, {'attr': {'class': 'row justify-content-center'}}) }}
+    {{ form_widget(form2, {'attr': {'class': 'row justify-content-center', 'required': false}}) }}
     <a href="#" id="add_video" class="btn btn-default">Ajouter une video</a>
   </div>
     <button class="btn btn-success">{{ button_label|default('Save') }}</button>
