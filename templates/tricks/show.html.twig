@@ -3,62 +3,27 @@
 {% block title %}Tricks{% endblock %}
 
 {% block body %}
+    <style>
+        #btnLike {
+            opacity: 0.8;
+        }
+    </style>
     {% for message in app.flashes('success') %}
-            <div class="alert alert-success">
-                {{ message }}
-            </div>
-        {% endfor %}
-    <div id="trickMainImage" class="position-relative border border-dark">
-        <img class="w-100" src="{{asset('medias/' ~ thumbail[0].name)}}" alt="">
-        {% if app.user %}
-            <div class="justify-content-end position-absolute col">
-                <div class="pull-right">
-                    <div class="flex col-6">
-                        <a href="{{ path('tricks_edit', {'id': trick.id}) }}"><i class="fas fa-pencil-alt"></i></a>
-                    </div>
-                    <div class="flex col-6">
-                        {{ include('tricks/_delete_form.html.twig', {'idTrick' : trick.id}) }}
-                    </div>
-                </div>
-            </div>
-        {% endif %}
-        <div id="trickTitle" class="text-center">
-            <h1>{{ trick.name }}</h1>
-        </div>
-    </div>
-
-    <div class="row" id="trickMedia">
-    {% for image in images %}
-        <div class="img-thumbnail mx-auto col-sm-6 col-md-4 col-lg-4 col-xl-2 border border-dark row align-items-end">
-            <img src="{{asset('medias/' ~ image.name)}}" width="100%" height="100%" alt="" class="img-responsive position-relative w-100">
-            {% if app.user %}
-                <div class="row justify-content-between position-absolute col">
-                    <div class="flex-left col-6"><span>{{ include('tricks/_likes_form.html.twig') }}</span></div>
-                    <div class="flex-right m-2"><span>{{ include('tricks/_delete_medias_form.html.twig') }}</span></div>
-                </div>
-            {% endif %}
+        <div class="alert alert-success">
+            {{ message }}
         </div>
     {% endfor %}
-    {% for video in videos %}
-        <div class="trickVideo col-sm-6 col-md-4 col-lg-4 col-xl-2 border border-dark">
-            <iframe id="video{{ video.name }}" width="100%" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            <script type="text/javascript">
-
-                var url = "{{ video.name }}";
-                var id = url.split("_")[1]; //sGbxmsDFVnE
-                console.log(id);
-                var embedlink = "http://www.youtube.com/embed/" + "_" + id;
-
-                var ytube1 = document.getElementById("video{{ video.name }}");
-
-                ytube1.src = embedlink;
-            </script>
-        </div>
-    {% endfor %}
+    {# Header show trick #}
+    <div id="trickMainImage" class="position-relative border border-dark rounded">
+        {{ include('tricks/_form_header_trick.html.twig') }}
+    </div>
+    {# Listing medias trick #}
+    <div class="row m-1" id="trickMedia">
+        {{ include('tricks/_form_medias.html.twig') }}
     </div>
 
-    <div class="row text-center d-none" id="voirMedias">
-        <button class="btn btn-info col-10 mt-3">Voir les médias</button>
+    <div class="text-center" id="voirMedias">
+        <button class="btn btn-info col-4 mt-3" onclick="visuMedias()">Voir les médias</button>
     </div>
     
     <div class="row">
@@ -75,35 +40,47 @@
             <p class="col">Mis à jour le {{ trick.modifdate | date('d/m/Y') }}</p>
         </div>
     </div>
-
-    {% if app.user %}
-        <div class="justify-content-center">
+    {# Add comments if user is connected #}
+    {% if app.user and modif is null %}
+        <div class="justify-content-center w-75 m-auto">
             {{ render(controller('App\\Controller\\CommentsController::new',{'trick': trick.id})) }}
         </div>
     {% endif %}
     
-    <div class="justify-content-center w-75 m-auto" id="Commentaires">
-        {{ render(controller('App\\Controller\\CommentsController::index',{'trick': trick.id})) }}
-    </div>
+    {% if modif == true %}
     
-     <div class="justify-content-center w-75 m-auto" id="moreComments"></div>
-     <div class="text-center m-auto">
-        <button class="btn btn-info mt-3" id="btnMoreComments" onclick=loadComments('{{trick.id}}','{{ path('comments_load', {'id': trick.id}) }}')>Plus de commentaires</button>
-        <button class="btn btn-info mt-3 d-none" id="btnLessComments" onclick=hideComments()>Moins de commentaires</button>
-    </div>
-
-    {# <a href="{{ path('tricks_index') }}">back to list</a> #}
+    {% else %}
+        <div class="justify-content-center w-75 m-auto" id="Commentaires">
+        {{ render(controller('App\\Controller\\CommentsController::index',{'trick': trick.id})) }}
+        </div>
+        
+        <div class="justify-content-center w-75 m-auto" id="moreComments"></div>
+        <div class="text-center m-auto">
+            <button class="btn btn-info mt-3" id="btnMoreComments" onclick=loadComments('{{trick.id}}','{{ path('comments_load', {'id': trick.id}) }}')>Plus de commentaires</button>
+            <button class="btn btn-info mt-3 d-none" id="btnLessComments" onclick=hideComments()>Moins de commentaires</button>
+        </div>
+    {% endif %}
+        {# <a href="{{ path('tricks_index') }}">back to list</a> #}
 
 {% endblock %}
 {% block javascripts %}
 <script src="{{ asset('js/jquery.min.js') }}"></script>
 <script type="text/javascript">
+//Fonction d'affichage ou pas des médias suivant taille de la fenêtre
+function visuMedias() {
+  var div = document.getElementById("trickMedia");
+  if (div.style.display === "none") {
+    div.style.display = "block";
+  } else {
+    div.style.display = "none";
+  }
+}
+//Fonction de chargement des commentaires si plus de 5, pour alléger le traitement
 function loadComments(idTrick,Url) {
     $(document).ready(function () {
         console.log(document.getElementById('btnMoreComments').classList);
         console.log(document.getElementById('btnMoreComments').classList.contains('d-none'));
         if (document.getElementById('btnMoreComments').classList.contains('d-none')==true) {
-            alert('il passe par içi');
             document.getElementById('moreComments').classList.toggle('d-none');
             document.getElementById('btnMoreComments').classList.toggle('d-none');
             document.getElementById('btnLessComments').classList.toggle('d-none');
@@ -123,7 +100,7 @@ function loadComments(idTrick,Url) {
         }
     });
 }
-
+//Fonction de masquage des commentaires pour gagner de la visibilité
 function hideComments() {
     document.getElementById('moreComments').classList.toggle('d-none');
     document.getElementById('btnMoreComments').classList.toggle('d-none');

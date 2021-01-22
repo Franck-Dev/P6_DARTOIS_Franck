@@ -1,0 +1,18 @@
+{% if app.user %}
+    <div class="justify-content-end position-absolute col">
+        <div class="btn-group pull-right">
+            {# <div class="flex col-6"> #}
+                <a href="{{ path('tricks_edit', {'id': trick.id}) }}" class="btn btn-secondary rounded" style="font-size: 1.1em"><i class="fa fa-pencil"></i></a>
+            {# </div>
+            <div class="flex col-6"> #}
+                {{ include('tricks/_delete_form.html.twig', {'idTrick' : trick.id}) }}
+            {# </div> #}
+        </div>
+    </div>
+{% endif %}
+<img class="w-100" src="{{asset('medias/' ~ thumbail[0].name)}}" alt="">
+{% if modif is null %}
+    <div class="text-center" id="TrickName">
+        <h1>{{ trick.name }}</h1>
+    </div>
+{% endif %}

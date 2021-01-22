@@ -11,6 +11,7 @@ use App\Repository\TricksRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
@@ -38,6 +39,7 @@ class TricksController extends AbstractController
 
     /**
      * @Route("/new", name="tricks_new", methods={"GET","POST"})
+     * @IsGranted("ROLE_USER")
      */
     public function new(Request $request, Medias $medias=null): Response
     {
@@ -69,29 +71,39 @@ class TricksController extends AbstractController
     /**
      * @Route("/{id}", name="tricks_show", methods={"GET"})
      */
-    public function show(Tricks $trick, MediasRepository $mediasRepository): Response
+    public function show(Tricks $trick, MediasRepository $mediasRepository, $modif=null): Response
     {
-        //On récupère la thumbail image du trick
-        $thumbail=$mediasRepository->myFindByTrick(1,$trick->getId(),'Picture');
+        $tbMedias=[];
+        //On récupère un tableau avec tous les objets nécessaire à l'affichage du trick
+        $tbMedias=$this->checkMedias($trick, $mediasRepository);
+        $thumbail=$tbMedias[0];
         //On récupère les images du trick
-        $images=$mediasRepository->findBy(['Tricks'=>$trick->getId(), 'Type'=>'Picture']);
+        $images=$tbMedias[1];
         //On récupère les videos du trick
-        $videos=$mediasRepository->findBy(['Tricks'=>$trick->getId(), 'Type'=>'Video']);
+        $videos=$tbMedias[2];
 
         return $this->render('tricks/show.html.twig', [
             'trick' => $trick,
             'thumbail' => $thumbail,
             'images' => $images,
             'videos' => $videos,
+            'modif' => $modif,
         ]);
     }
 
     /**
      * @Route("/edit/{id}", name="tricks_edit", methods={"GET","POST"})
+     * @IsGranted("ROLE_USER")
      */
-    public function edit(Request $request, Tricks $trick): Response
+    public function edit(Request $request, Tricks $trick, MediasRepository $mediasRepository, Medias $medias=null): Response
     {
+        
+        $tbMedias=[];
+        //On récupère un tableau avec tous les objets nécessaire à l'affichage du trick
+        $tbMedias=$this->checkMedias($trick, $mediasRepository);
+
         $form = $this->createForm(TricksType::class, $trick);
+        $form2= $this->createForm(MediasType::class, $medias);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -105,12 +117,18 @@ class TricksController extends AbstractController
 
         return $this->render('tricks/edit.html.twig', [
             'trick' => $trick,
+            'thumbail' => $tbMedias[0],
+            'images' => $tbMedias[1],
+            'videos' => $tbMedias[2],
             'form' => $form->createView(),
+            'form2' => $form2->createView(),
+            'modif' => true,
         ]);
     }
 
     /**
      * @Route("/delete/{id}", name="tricks_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_USER")
      */
     public function delete(Request $request, Tricks $trick): Response
     {
@@ -125,10 +143,10 @@ class TricksController extends AbstractController
 
     /**
      * @Route("/delete/medias/{id}", name="image_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_USER")
      */
     public function deleteImage(Medias $image, Request $request){
-        $data = json_decode($request->getContent(), true);
-        dump($request->getContent());
+        //$data = json_decode($request->getContent(), true);
         // On vérifie si le token est valide
         if($this->isCsrfTokenValid('delete'.$image->getId(),  $request->request->get('_token'))){
             // On récupère le nom de l'image
@@ -148,14 +166,19 @@ class TricksController extends AbstractController
         }
         return $this->redirectToRoute('tricks_index');
     }
-
+    
+    /**
+     * Fonction permettant l'integration du média image dans la base et dans le dossier image
+     *
+     * @param  mixed $form
+     * @param  Request $request
+     * @param  Tricks $trick
+     */
     private function integrationMedia($form, $request, $trick) {
 
         // On récupère les images transmises
         $images = $form->get('medias')->getData();
         $videos=$request->request->get('medias')['medias'];
-        dump($images);
-        dump($videos); 
         // On boucle sur les images
         foreach($images as $image){
             // On génère un nouveau nom de fichier
@@ -182,5 +205,27 @@ class TricksController extends AbstractController
             $vid->setLikes(1);
             $trick->addMedia($vid);
         }
+    }
+    
+    /**
+     * checkMedias est une fonction qui permet de récupérer tous les medias liés à un trick
+     *
+     * @param  mixed $trick
+     * @param  mixed $mediasRepository
+     * @return void
+     */
+    private function checkMedias (Tricks $trick, MediasRepository $mediasRepository) {
+
+        $tbMedias=[];
+        //On récupère la thumbail image du trick
+        $thumbail=$mediasRepository->myFindByTrick(1,$trick->getId(),'Picture');
+        //On récupère les images du trick
+        $images=$mediasRepository->findBy(['Tricks'=>$trick->getId(), 'Type'=>'Picture']);
+        //On récupère les videos du trick
+        $videos=$mediasRepository->findBy(['Tricks'=>$trick->getId(), 'Type'=>'Video']);
+
+        $tbMedias=[$thumbail,$images,$videos];
+
+        return $tbMedias;
     }
 }

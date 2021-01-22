@@ -1,0 +1,25 @@
+ {% for image in images %}
+    <div class="img-thumbnail mx-auto col-sm-6 col-md-4 col-lg-4 col-xl-2 border border-dark row align-items-end">
+        <img src="{{asset('medias/' ~ image.name)}}" width="100%" height="100%" alt="" class="img-responsive position-relative w-100">
+        {% if app.user %}
+            <div class="row justify-content-between position-absolute col">
+                <div class="flex-left col-4" id="btnLike"><span>{{ include('tricks/_likes_form.html.twig') }}</span></div>
+                {% if modif is not null %}
+                    <div class="flex-right m-2"><span>{{ include('tricks/_delete_medias_form.html.twig') }}</span></div>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+{% endfor %}
+{% for video in videos %}
+    <div class="trickVideo col-sm-6 col-md-4 col-lg-4 col-xl-2 border border-dark">
+        {% set lien = video.name|split('/')|last %}
+        {% set lienVideo = ["https://www.youtube.com/embed/",lien]|join %}
+        <iframe id="video{{ video.name }}" src="{{lienVideo}}" width="100%" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        {% if app.user and modif is not null %}
+            <div class="row justify-content-between pull-right">
+                <div class="flex-right m-2"><span>{{ include('tricks/_delete_medias_form.html.twig') }}</span></div>
+            </div>
+        {% endif %}
+    </div>
+{% endfor %}
