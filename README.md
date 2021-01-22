@@ -1,5 +1,7 @@
 # P6_DARTOIS_Franck
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/4945f9c89b554816a4b29603eceaf0e6)](https://app.codacy.com/gh/Franck-Dev/P6_DARTOIS_Franck?utm_source=github.com&utm_medium=referral&utm_content=Franck-Dev/P6_DARTOIS_Franck&utm_campaign=Badge_Grade_Settings)
+
 Création d'un site communautaire de partage de figures de snowboard via le framework Symfony.
 
 ## Environnement utilisé durant le développement
