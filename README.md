@@ -1,3 +1,4 @@
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/d66b769aa28846f1bc05ffe0971efde2)](https://www.codacy.com/gh/Franck-Dev/P6_DARTOIS_Franck/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Franck-Dev/P6_DARTOIS_Franck&amp;utm_campaign=Badge_Grade)
 # P6_DARTOIS_Franck
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/4945f9c89b554816a4b29603eceaf0e6)](https://app.codacy.com/gh/Franck-Dev/P6_DARTOIS_Franck?utm_source=github.com&utm_medium=referral&utm_content=Franck-Dev/P6_DARTOIS_Franck&utm_campaign=Badge_Grade_Settings)
