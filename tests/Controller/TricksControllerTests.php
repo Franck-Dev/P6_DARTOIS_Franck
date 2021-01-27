@@ -2,7 +2,6 @@
 
 namespace App\Tests\Controller;
 
-use App\Entity\Tricks;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class TricksControllerTests extends WebTestCase
