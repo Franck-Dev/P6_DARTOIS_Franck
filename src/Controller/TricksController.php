@@ -69,6 +69,7 @@ class TricksController extends AbstractController
             'form' => $form->createView(),
             'form2' => $form2->createView(),
             'errors' => $errors,
+            'modif' => false,
         ]);
     }
 
