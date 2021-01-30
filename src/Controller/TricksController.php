@@ -11,6 +11,7 @@ use App\Repository\TricksRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -41,13 +42,15 @@ class TricksController extends AbstractController
      * @Route("/new", name="tricks_new", methods={"GET","POST"})
      * @IsGranted("ROLE_USER")
      */
-    public function new(Request $request, Medias $medias=null): Response
+    public function new(Request $request, Medias $medias=null, ValidatorInterface $validator): Response
     {
         $trick = new Tricks();
         $form = $this->createForm(TricksType::class, $trick);
         $form2= $this->createForm(MediasType::class, $medias);
 
         $form->handleRequest($request);
+
+        $errors = $validator->validate($trick);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -65,6 +68,7 @@ class TricksController extends AbstractController
             'trick' => $trick,
             'form' => $form->createView(),
             'form2' => $form2->createView(),
+            'errors' => $errors,
         ]);
     }
 
@@ -197,13 +201,17 @@ class TricksController extends AbstractController
             $img->setLikes(1);
             $trick->addMedia($img);
         }
-        //On boucle sur les videos
-        foreach ($videos as $video) {
-            $vid = new Medias();
-            $vid->setName($video['medias']);
-            $vid->setType('Video');
-            $vid->setLikes(1);
-            $trick->addMedia($vid);
+        //On boucle sur les videos s'il y en a
+        if (empty($videos[0]['medias'])) {
+            
+        } else {
+            foreach ($videos as $video) {
+                $vid = new Medias();
+                $vid->setName($video['medias']);
+                $vid->setType('Video');
+                $vid->setLikes(1);
+                $trick->addMedia($vid);
+            }
         }
     }
     
