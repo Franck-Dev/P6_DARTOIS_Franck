@@ -12,7 +12,11 @@
     {{ form_label(form.category)}}
     {{ form_widget(form.category, {'attr': {'class': 'form-control'}}) }}
   </div>
-    {{ form_widget(form) }}
+  {% if modif == true %}
+    {{ form_widget(form.medias, {'attr' :{'required' : false}}) }}
+  {% else %}
+    {{ form_widget(form.medias, {'attr' :{'required' : true}}) }}
+  {% endif %}
   {# Deuxième partie avec les vidéos à insérer #}
   <div class="form-group">
     {{ form_widget(form2, {'attr': {'class': 'row justify-content-center', 'required': false}}) }}
